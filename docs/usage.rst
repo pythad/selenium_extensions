@@ -72,3 +72,20 @@ About ``core.SeleniumDriver``
     bot = MyBot(browser='chrome', executable_path='/usr/bin/chromedriver', run_headless=True, load_images=False)
     bot.goto_google()
     bot.shut_down()  # core.shut_down() is now available as self.shut_down()
+
+
+Another option, if you don't enjoy OOP style, would be we just to initialize ``SeleniumDriver`` and use its ``driver`` attribute to do whatever you want. So the code above could look like this:
+
+.. code-block:: python
+
+    from selenium.webdriver.common.by import By
+    from selenium_extensions.core import SeleniumDriver
+
+
+    bot = SeleniumDriver(browser='chrome', executable_path='/usr/bin/chromedriver',
+                         run_headless=False, load_images=False)
+    bot.driver.get('https://google.com')
+    searchbox_locator = (By.ID, 'lst-ib')
+    bot.wait_for_element_to_be_present(searchbox_locator)
+    bot.populate_text_field(searchbox_locator, 'query')
+    bot.shut_down()
