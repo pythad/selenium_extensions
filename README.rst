@@ -62,7 +62,7 @@ Creating a headless Selenium bot and filling in a form is as easy as
             self.populate_text_field(searchbox_locator, 'query')
 
 
-    bot = MyBot(browser='chrome', executable_path='/usr/bin/chromedriver')
+    bot = MyBot(browser='chrome', executable_path='/usr/bin/chromedriver', headless=True)
     bot.goto_google()
     bot.shut_down()
 
