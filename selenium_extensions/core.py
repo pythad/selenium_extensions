@@ -32,7 +32,7 @@ def shut_down(driver):
     driver.quit()
     try:
         kill_virtual_display(driver.display)
-    except AttributeError:
+    except (AttributeError, TypeError):
         # Display is either None or there is no display at all
         pass
 
