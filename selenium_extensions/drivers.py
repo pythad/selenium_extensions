@@ -18,6 +18,9 @@ def chrome_driver(executable_path=None, run_headless=False,
 
     Note:
         In order to create Chrome driver Selenium requires `Chrome <https://www.google.com/chrome/browser/desktop/index.html>`_ to be installed and `chromedriver <https://sites.google.com/a/chromium.org/chromedriver/>`_ to be downloaded.
+
+    Warning:
+        Headless Chrome is shipping in Chrome 59 and in Chrome 60 for Windows. Update your Chrome browser if you want to use ``headless`` option.
     '''
     chrome_options = webdriver.ChromeOptions()
     if run_headless:
