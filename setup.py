@@ -22,7 +22,7 @@ setup_requirements = [
 
 setup(
     name='selenium_extensions',
-    version='0.1.0',
+    version='0.1.1',
     description="Tools that will make writing tests, bots and scrapers using Selenium much easier",
     long_description=readme + '\n\n' + history,
     author="Vladyslav Ovchynnykov",
