@@ -3,6 +3,10 @@
 
 """The setup script."""
 
+import pip
+
+from pip.req import parse_requirements
+
 from setuptools import setup, find_packages
 
 with open('README.rst') as readme_file:
@@ -11,14 +15,12 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = [
-    'selenium',
-    'pyvirtualdisplay',
-]
+parsed_requirements = parse_requirements(
+    'requirements/prod.txt',
+    session=pip.download.PipSession()
+)
 
-setup_requirements = [
-    # TODO(pythad): put setup requirements (distutils extensions, etc.) here
-]
+requirements = [str(ir.req) for ir in parsed_requirements]
 
 setup(
     name='selenium_extensions',
@@ -44,5 +46,4 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
-    setup_requires=setup_requirements,
 )
