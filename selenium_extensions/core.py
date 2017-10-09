@@ -221,6 +221,7 @@ class SeleniumDriver:
         executable_path (str): path to the browser's webdriver binary. If set to ``None`` selenium will serach for browser's webdriver in ``$PATH``.
         run_headless (bool): boolean flag that indicates if webdriver has to be headless (without GUI).
         load_images (bool): boolean flag that indicates if webdriver has to render images.
+        use_proxy (str): use http proxy in <host:port> format.
 
     Raises:
         selenium_extensions.exceptions.SeleniumExtensionsException: ``browser`` is not supported by ``selenium_extensions``.
@@ -254,12 +255,13 @@ class SeleniumDriver:
         Firefox doesn't support native headless mode. We use ``pyvirtualdisplay`` to simulate it. In order ``pyvirtualdisplay`` to work you need to install ``Xvfb`` package: ``sudo apt install xvfb``.
     '''
 
-    def __init__(self, browser=None, executable_path=None, run_headless=False, load_images=True):
+    def __init__(self, browser=None, executable_path=None, run_headless=False, load_images=True, use_proxy=None):
         self._initialize_driver(browser, executable_path,
-                                run_headless, load_images)
+                                run_headless, load_images,
+                                use_proxy)
         self._initialize_methods()
 
-    def _initialize_driver(self, browser, executable_path, run_headless, load_images):
+    def _initialize_driver(self, browser, executable_path, run_headless, load_images, use_proxy):
         if browser is None:
             self.driver = chrome_driver()
             browser = browser.lower()
@@ -272,11 +274,13 @@ class SeleniumDriver:
         if browser == 'chrome':
             self.driver = chrome_driver(executable_path=executable_path,
                                         run_headless=run_headless,
-                                        load_images=load_images)
+                                        load_images=load_images,
+                                        use_proxy=use_proxy)
         if browser == 'firefox':
             self.driver = firefox_driver(executable_path=executable_path,
                                          run_headless=run_headless,
-                                         load_images=load_images)
+                                         load_images=load_images,
+                                         use_proxy=use_proxy)
 
     def _initialize_methods(self):
         self.shut_down = partial(shut_down, self.driver)

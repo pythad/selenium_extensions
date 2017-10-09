@@ -5,13 +5,14 @@ from selenium import webdriver
 
 
 def chrome_driver(executable_path=None, run_headless=False,
-                  load_images=True):
+                  load_images=True, use_proxy=None):
     '''Function to initialize ``selenium.webdriver.Chrome`` with extended options
 
     Args:
         executable_path (str): path to the chromedriver binary. If set to ``None`` selenium will serach for ``chromedriver`` in ``$PATH``.
         run_headless (bool): boolean flag that indicates if chromedriver has to be headless (without GUI).
         load_images (bool): boolean flag that indicates if Chrome has to render images.
+        use_proxy (str): use http proxy in <host:port> format.
 
     Returns:
         selenium.webdriver.Chrome: created driver.
@@ -28,6 +29,8 @@ def chrome_driver(executable_path=None, run_headless=False,
     if not load_images:
         prefs = {'profile.managed_default_content_settings.images': 2}
         chrome_options.add_experimental_option('prefs', prefs)
+    if use_proxy:
+        chrome_options.add_argument('proxy-server=' + use_proxy)
     if executable_path:
         driver = webdriver.Chrome(chrome_options=chrome_options,
                                   executable_path=executable_path)
@@ -37,13 +40,14 @@ def chrome_driver(executable_path=None, run_headless=False,
 
 
 def firefox_driver(executable_path=None, run_headless=False,
-                   load_images=True):
+                   load_images=True, use_proxy=None):
     '''Function to initialize ``selenium.webdriver.Firefox`` with extended options
 
     Args:
         executable_path (str): path to the ``geckdriver`` binary. If set to ``None`` selenium will search for ``geckdriver`` in ``$PATH``.
         run_headless (bool): boolean flag that indicates if ``geckodriver`` has to be headless (without GUI). ``geckodriver`` doesn't support native headless mode, that's why ``pyvirtualdisplay`` is used.
         load_images (bool): boolean flag that indicates if Firefox has to render images.
+        use_proxy (str): use http proxy in <host:port> format.
 
     Returns:
         selenium.webdriver.Firefox: created driver.
@@ -73,6 +77,13 @@ def firefox_driver(executable_path=None, run_headless=False,
         # Turns animated images off
         firefox_profile.set_preference(
             'thatoneguydotnet.QuickJava.startupStatus.AnimatedImage', 2)
+    if use_proxy:
+        _ = use_proxy.split(':')
+        firefox_profile.set_preference('network.proxy.type', 1)
+        firefox_profile.set_preference('network.proxy.http', _[0])
+        firefox_profile.set_preference('network.proxy.http_port', int(_[1]))
+        firefox_profile.set_preference('network.proxy.ssl', _[0])
+        firefox_profile.set_preference('network.proxy.ssl_port', int(_[1]))
     if executable_path:
         driver = webdriver.Firefox(
             firefox_profile, executable_path=executable_path)
