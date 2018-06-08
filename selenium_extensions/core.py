@@ -218,7 +218,7 @@ class SeleniumDriver:
 
     Args:
         browser ('chrome' or 'firefox'): webdriver to use.
-        executable_path (str): path to the browser's webdriver binary. If set to ``None`` selenium will serach for browser's webdriver in ``$PATH``.
+        executable_path (str): path to the browser's webdriver binary. If set to ``None`` selenium will search for browser's webdriver in ``$PATH``.
         run_headless (bool): boolean flag that indicates if webdriver has to be headless (without GUI).
         load_images (bool): boolean flag that indicates if webdriver has to render images.
         use_proxy (str): use http proxy in <host:port> format.
